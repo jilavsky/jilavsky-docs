@@ -26,13 +26,15 @@ myst_heading_anchors = 3
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # ---- Family navbar: identical block in every family conf.py ---------------
+# Version-less addresses: RTD redirects them to each project's default version.
+# The home page has no releases, so it never has a "stable".
 _RTD = "https://jilavsky-docs.readthedocs.io"
 _IGOR = "https://saxs-igorcodedocs.readthedocs.io/en/stable/"
 FAMILY = [
-    {"name": "Home", "url": f"{_RTD}/en/stable/"},
-    {"name": "pyIrena", "url": f"{_RTD}/projects/pyirena/en/stable/"},
-    {"name": "Bernardyn", "url": f"{_RTD}/projects/bernardyn/en/stable/"},
-    {"name": "AIDA", "url": f"{_RTD}/projects/aida/en/stable/"},
+    {"name": "Home", "url": f"{_RTD}/"},
+    {"name": "pyIrena", "url": f"{_RTD}/projects/pyirena/"},
+    {"name": "Bernardyn", "url": f"{_RTD}/projects/bernardyn/"},
+    {"name": "AIDA", "url": f"{_RTD}/projects/aida/"},
     {"name": "Igor: Irena/Nika/Indra", "url": _IGOR},
 ]
 # ---------------------------------------------------------------------------

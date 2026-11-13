@@ -32,6 +32,9 @@ https://saxs-igorcodedocs.readthedocs.io/en/stable/                  ← unchang
   citations, and the package template.
 - Every site shows the same top navbar (the `FAMILY` block in each `conf.py`), so the family reads
   as one site even though each package has its own versions.
+- Links *between* family sites (navbar, home-page cards, PyPI) use the version-less address
+  (`.../projects/pyirena/`), which RTD redirects to the project's default version. Only the Help
+  buttons name a version (`stable`/`latest`).
 
 ## 3. One layout for every package (harmonization)
 
@@ -196,8 +199,11 @@ Changed from the draft:
    `jilavsky-aida`** for consistency. The slug never appears in links: readers see the alias.
 4. In `jilavsky-docs` → Settings → Subprojects, add each with alias **`pyirena`, `bernardyn`,
    `aida`**.
-5. Per project: default version `stable`; automation rule "activate version" for tags matching
-   `^v\d+\.\d+\.\d+$` (all three packages already tag as `vX.Y.Z`); turn on pull-request builds.
+5. Per project: default version **`latest` for now** (RTD offers `stable` only once a release tag
+   is active; switch each package to `stable` after its first release with docs; the home page
+   stays on `latest` for good, it has no releases); automation rule "activate version" for tags matching
+   `^v\d+\.\d+\.\d+$` (all three packages already tag as `vX.Y.Z`); turn on pull-request builds
+   (a per-project setting: the parent and each subproject separately).
 6. `stable` exists only once a release tag is active. **Do not activate tags released before the
    package had Sphinx docs** (pyIrena ≤ v1.2.1, Bernardyn ≤ v1.1.0, AIDA ≤ v1.1.0): they have no
    `docs/conf.py` and their builds fail. Until the next release, only `latest` (built from `main`)
