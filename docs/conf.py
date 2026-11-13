@@ -27,19 +27,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # ---- Family navbar: identical block in every family conf.py ---------------
 _RTD = "https://jilavsky-docs.readthedocs.io"
+_IGOR = "https://saxs-igorcodedocs.readthedocs.io/en/stable/"
 FAMILY = [
     {"name": "Home", "url": f"{_RTD}/en/stable/"},
     {"name": "pyIrena", "url": f"{_RTD}/projects/pyirena/en/stable/"},
     {"name": "Bernardyn", "url": f"{_RTD}/projects/bernardyn/en/stable/"},
     {"name": "AIDA", "url": f"{_RTD}/projects/aida/en/stable/"},
-    {"name": "Igor: Irena/Nika/Indra", "url": "https://saxs-igorcodedocs.readthedocs.io/en/stable/"},
+    {"name": "Igor: Irena/Nika/Indra", "url": _IGOR},
 ]
 # ---------------------------------------------------------------------------
 
 # Cross-project links. Add a family member here only once its RTD project is
 # live: an unreachable inventory is a warning, and the build runs with -W.
 intersphinx_mapping = {
-    "igor": ("https://saxs-igorcodedocs.readthedocs.io/en/stable/", None),
+    "igor": (_IGOR, None),
     # "pyirena": (f"{_RTD}/projects/pyirena/en/stable/", None),
     # "bernardyn": (f"{_RTD}/projects/bernardyn/en/stable/", None),
     # "aida": (f"{_RTD}/projects/aida/en/stable/", None),

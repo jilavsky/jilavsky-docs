@@ -47,11 +47,11 @@ simple: **every package's `docs/` looks like `templates/package-docs/docs/`**.
     _static/family.css               identical except the accent colour
     index.md                         what it is, who it is for, one screenshot
     getting-started/                 installation.md, quickstart.md
-    tools/                           ONE PAGE PER WINDOW = Help-button targets (pyIrena, Anisa)
+    tools/                           ONE PAGE PER WINDOW = Help-button targets (optional)
     guides/                          task-oriented how-tos
-    methods/                         theory and algorithms
+    methods/                         theory and algorithms (optional)
     reference/                       api.md (autodoc), file formats, CLI, MCP tools
-    developer/                       testing, releasing, extending
+    developer/                       testing, releasing, extending (optional)
     changelog.md                     includes ../CHANGELOG.md
   <package>/_docs.py                 HELP_TARGETS + docs_url(); no Qt imports
   tests/test_help_targets.py         every Help target exists as a page
@@ -69,6 +69,10 @@ Conventions, all packages:
   instead, which is fine because readers use RTD.)
 - **Anchors the code links to** are explicit MyST labels (`(unified-fit-levels)=`), never
   auto-generated heading anchors.
+- **Optional sections are left out** (folder and toctree entry) until they have a page; no empty
+  placeholder pages (decided 2026-11-13 after AIDA and Bernardyn).
+- **Text that lives elsewhere is included, not copied** (`{include}`, with `start-after`/`end-before`
+  markers for part of `README.md`).
 - **Sections are listed by hand** in each `<section>/index.md` (no globbing), so the order is
   chosen and an empty section still builds without warnings.
 - **Page names under `tools/` never change after release.** If one must, add a redirect.
@@ -147,8 +151,11 @@ pyIrena 1.2.1 and AIDA 1.1.0 open GitHub URLs on `main`. When files move, those 
 year, leave a one-line stub at each old pyIrena path, e.g. `docs/unified_fit_gui.md`:
 
 ```markdown
-Moved to <https://jilavsky-docs.readthedocs.io/projects/pyirena/en/stable/tools/unified-fit.html>
+Moved to <https://jilavsky-docs.readthedocs.io/projects/pyirena/en/latest/tools/unified-fit.html>
 ```
+
+Stubs point at `latest`, not `stable` (decided 2026-11-13): `stable` exists only from the next
+release, and the tool pages change little between releases.
 
 List the stubs in `LEGACY_GITHUB_STUBS` in `conf.py` so Sphinx skips them. AIDA's link is to the
 `docs/` folder itself, which still exists, so it needs no stub.
@@ -191,8 +198,14 @@ Changed from the draft:
    `aida`**.
 5. Per project: default version `stable`; automation rule "activate version" for tags matching
    `^v\d+\.\d+\.\d+$` (all three packages already tag as `vX.Y.Z`); turn on pull-request builds.
-6. `stable` exists only once at least one release tag is active. Activate the newest tag right after
-   import, or the Help buttons (which open `stable`) get a 404.
+6. `stable` exists only once a release tag is active. **Do not activate tags released before the
+   package had Sphinx docs** (pyIrena ≤ v1.2.1, Bernardyn ≤ v1.1.0, AIDA ≤ v1.1.0): they have no
+   `docs/conf.py` and their builds fail. Until the next release, only `latest` (built from `main`)
+   exists. That is fine, because released copies still open GitHub (via the stubs, which point at
+   `latest`). Dev installs of `main` report the release number and so open `stable`, which 404s
+   until the next release; accepted on 2026-11-13 (only Jan is affected).
+   Import each package on RTD after its `docs-rtd` branch is merged (or activate the branch on RTD
+   to preview it before merging).
 7. Igor manuals: no change. Optionally later, on a throwaway project, test whether attaching a
    project as a subproject keeps old deep links (`/en/1.7.0/Irena/UnifiedFit.html#…`) working.
    Only if it does, attach `saxs-igorcodedocs`.

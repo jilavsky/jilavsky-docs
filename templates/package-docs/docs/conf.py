@@ -11,11 +11,11 @@ from importlib import metadata
 from pathlib import Path
 
 # ---- PER-PACKAGE ----------------------------------------------------------
-PACKAGE = "pyirena"          # import name
-DIST = "pyirena"             # PyPI distribution name (AIDA: "aida-workbench")
-project = "pyIrena"          # display name
-GITHUB_REPO = "pyirena"      # github.com/jilavsky/<GITHUB_REPO>
-SRC_DIR = ".."               # where PACKAGE lives relative to docs/ ("../src" for src layout)
+PACKAGE = "pyirena"  # import name
+DIST = "pyirena"  # PyPI distribution name (AIDA: "aida-workbench")
+project = "pyIrena"  # display name
+GITHUB_REPO = "pyirena"  # github.com/jilavsky/<GITHUB_REPO>
+SRC_DIR = ".."  # where PACKAGE lives relative to docs/ ("../src" for src layout)
 # Heavy or GUI-only imports that autodoc must not try to import on RTD.
 autodoc_mock_imports = ["PySide6", "pyqtgraph", "matplotlib", "OpenGL"]
 # Old GitHub-linked files kept as one-line "moved" stubs for released Help
@@ -45,19 +45,20 @@ extensions = [
 myst_enable_extensions = ["colon_fence", "deflist", "dollarmath", "substitution"]
 myst_heading_anchors = 3
 napoleon_google_docstring = True
-napoleon_numpy_docstring = False
+napoleon_numpy_docstring = True
 autodoc_typehints = "description"
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**/_template*.md", *LEGACY_GITHUB_STUBS]
 
 # ---- Family navbar: identical block in every family conf.py ---------------
 _RTD = "https://jilavsky-docs.readthedocs.io"
+_IGOR = "https://saxs-igorcodedocs.readthedocs.io/en/stable/"
 FAMILY = [
     {"name": "Home", "url": f"{_RTD}/en/stable/"},
     {"name": "pyIrena", "url": f"{_RTD}/projects/pyirena/en/stable/"},
     {"name": "Bernardyn", "url": f"{_RTD}/projects/bernardyn/en/stable/"},
     {"name": "AIDA", "url": f"{_RTD}/projects/aida/en/stable/"},
-    {"name": "Igor: Irena/Nika/Indra", "url": "https://saxs-igorcodedocs.readthedocs.io/en/stable/"},
+    {"name": "Igor: Irena/Nika/Indra", "url": _IGOR},
 ]
 # ---------------------------------------------------------------------------
 
@@ -65,7 +66,7 @@ FAMILY = [
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "igor": ("https://saxs-igorcodedocs.readthedocs.io/en/stable/", None),
+    "igor": (_IGOR, None),
     # "family": (f"{_RTD}/en/stable/", None),  # enable once jilavsky-docs is live
 }
 intersphinx_disabled_reftypes = ["std:doc"]  # cross-project pages need an explicit prefix
