@@ -1,0 +1,9 @@
+# Local docs build environment. RTD itself installs docs/requirements.txt.
+name: jilavsky-docs
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+      - -r docs/requirements.txt
