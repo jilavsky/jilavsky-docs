@@ -2,6 +2,7 @@
 
 Parent Read the Docs project for the documentation family (pyIrena, Bernardyn, AIDA; later Anisa,
 pyNika). Design and decisions: `PLAN.md`. Read it before changing structure.
+**Current state and next steps: `NEXT.md`. Read it first when resuming work.**
 
 ## Map
 

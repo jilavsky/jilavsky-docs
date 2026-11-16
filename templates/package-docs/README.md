@@ -46,15 +46,20 @@ Copy `scripts/make_doc_screenshots.py`, `scripts/doc_shots/` (all of it),
 `tests/test_doc_screenshots.py` and `planning/docs-screenshots/SHOTLIST.md`.
 
 - **Only `scripts/doc_shots/_package.py` differs per package**: data folder, callout colour,
-  `isolate_settings()` (point every settings/state location of the package at a scratch folder)
-  and `make_app()` (offscreen app, light theme). Package-specific helpers (e.g. waiting for a fit
-  job) go there too. Everything else stays identical to the template.
+  `isolate_settings()` (point every settings/state location of the package at a scratch folder:
+  environment variables, `HOME`, `QSettings`, `QStandardPaths`, keychain) and `make_app()`
+  (offscreen app as the real one sets it up: names, light theme or Fusion, default font,
+  `refuse_message_boxes()`). Package-specific helpers (e.g. waiting for a fit job, a lock if
+  shots rebuild a fixed `/tmp/<pkg>-docs` folder) go there too. Everything else stays identical
+  to the template.
 - A shot ID is `<page>-<nn>-<what>`; the image lives next to the page:
-  `<page dir>/img/<page>/<id>.png`. Page file names must be unique across `docs/`.
+  `<page dir>/img/<page>/<id>.png`. Page file names must be unique across `docs/`, except
+  `index`: `index-<nn>-…` shots belong to the home page `docs/index.md`.
 - One module per page, `scripts/doc_shots/<page>.py`, registering shots with `@shot("<id>")`
   (pattern in `_example.py`). Shots that need judgment stay as `% SCREENSHOT` comments.
 - Inputs are always scratch copies (`ctx.dataset(...)`); fixed window sizes; light theme;
-  < 300 KB per PNG. Numbered callouts come from widget geometry (`draw_callouts`).
+  < 300 KB per PNG. Numbered callouts come from widget geometry (`draw_callouts`). The scratch
+  folder is deleted after the run (`--keep` keeps it).
 - `tests/test_doc_screenshots.py` (no Qt) keeps pages, shot list, images and `@shot` functions
   in step. If tests live inside the package (pyIrena: `pyirena/tests/`), it still finds the repo
   root by `pyproject.toml`.

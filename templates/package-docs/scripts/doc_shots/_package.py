@@ -27,15 +27,28 @@ CALLOUT_RADIUS = 12
 def isolate_settings(scratch: Path) -> None:
     """Point every settings/state location of the package into *scratch*.
 
-    pyIrena: ``PYIRENA_STATE_DIR``. AIDA: its config/data directories.
-    Bernardyn: its QSettings / workspace location. Find them in the package's
-    config code; a shot must never read or write the developer's real ones.
+    Find every place the package reads or writes user state: environment
+    variables it honours, ``Path.home()`` / ``~`` (set ``HOME`` and
+    ``USERPROFILE``), ``QSettings``, ``QStandardPaths`` (on macOS Qt ignores
+    ``HOME`` for these: replace the method that asks), and the keychain.
+    A shot must never read or write the developer's real ones; check
+    modification times before and after a run. Examples: pyIrena
+    ``PYIRENA_STATE_DIR``; AIDA ``AIDA_HOME`` and ``HOME``; Bernardyn ``HOME``
+    plus a replaced template-folder method.
     """
     os.environ["PYIRENA_STATE_DIR"] = str(scratch / "state")
 
 
 def make_app():
-    """Create the offscreen QApplication with the package's light theme."""
+    """Create the offscreen QApplication as the real app sets it up.
+
+    Same organisation/application names, light theme, window-geometry
+    persistence off, and the app's default font applied once here (otherwise
+    a shot that changes the font size changes every later image). A package
+    without a theme sets ``app.setStyle("Fusion")`` so images look the same on
+    every platform. ``refuse_message_boxes()`` makes a stray modal box fail
+    the shot instead of hanging the run.
+    """
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
     os.environ.pop("PYIRENA_NATIVE_THEME", None)
     from pyirena.gui import window_state
@@ -44,6 +57,9 @@ def make_app():
     from pyirena.gui._qt import QApplication
     from pyirena.gui.theme import apply_theme
 
+    from ._common import refuse_message_boxes
+
     app = QApplication.instance() or QApplication(["make_doc_screenshots"])
     apply_theme(app)
+    refuse_message_boxes()
     return app
