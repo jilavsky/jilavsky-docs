@@ -21,6 +21,25 @@ Copy this into a family package repo to give it the standard docs layout (PLAN.m
 10. Switch the GUI Help buttons to
     `QDesktopServices.openUrl(QUrl(docs_url("<target>")))`.
 
+## Tool pages
+
+Start from `docs/tools/_template.md` (excluded from the build). Every section gets a label
+`(<page>-<section>)=` with these suffixes: `window`, `workflow`, `controls`, `results`,
+`scripting`, `method`, `references` (add others freely, e.g. `unified-fit-slit-smearing`). Help
+buttons that jump into a page (`HELP_ANCHORS`) use these labels. Labels are a contract once
+released: add, never rename or remove.
+
+## Working notes in pages
+
+Two kinds of MyST comment (`% ...`), invisible on the rendered site:
+
+- `% SCREENSHOT <id>: <what it must show>` marks an image still to be taken. When the image
+  exists, replace the comment with a `figure` with alt text and caption.
+- `% CHECK(Jan): <doubt>` marks text that may be wrong and needs the author's decision.
+
+`html_copy_source = False` in `conf.py` keeps them out of the published `_sources/`. They are
+still visible in the public GitHub repository.
+
 ## Sections
 
 `getting-started/`, `guides/`, `reference/` and `changelog.md` are expected in every package.

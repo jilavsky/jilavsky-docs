@@ -79,6 +79,11 @@ Conventions, all packages:
 - **Sections are listed by hand** in each `<section>/index.md` (no globbing), so the order is
   chosen and an empty section still builds without warnings.
 - **Page names under `tools/` never change after release.** If one must, add a redirect.
+- **Section labels on tool pages:** `(<page>-<section>)=` with the suffixes `window`, `workflow`,
+  `controls`, `results`, `scripting`, `method`, `references` (decided 2026-11-16, from pyIrena
+  phase 5). `HELP_ANCHORS` uses them.
+- **Working notes are MyST comments:** `% SCREENSHOT <id>: …` and `% CHECK(Jan): …`. Hidden on
+  the site; `html_copy_source = False` keeps them out of `_sources/` too.
 
 Not documentation, but noticed while surveying (leave alone unless you want them harmonized):
 AIDA uses a `src/` layout, `hatchling` and Python `>=3.11`, while the house standard is a flat

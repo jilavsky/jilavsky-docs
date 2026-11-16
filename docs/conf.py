@@ -53,6 +53,9 @@ html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
 html_css_files = ["family.css"]
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+# Do not publish page sources: "% CHECK(Jan)" and "% SCREENSHOT" comments are
+# working notes, hidden on rendered pages but visible in _sources/ ("Show source").
+html_copy_source = False
 html_theme_options = {
     "external_links": [link for link in FAMILY if link["name"] != "Home"],
     "header_links_before_dropdown": 6,
