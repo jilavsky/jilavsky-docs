@@ -5,7 +5,7 @@ Copy this into a family package repo to give it the standard docs layout (PLAN.m
 ## Apply to a package
 
 1. Copy `.readthedocs.yaml`, `.github/workflows/docs.yml`, `.github/dependabot.yml` and `docs/`
-   to the repo root. Do not copy this README. If the repo already has a `dependabot.yml`, merge
+   to the repo root (screenshot machinery: see "Screenshots" below). Do not copy this README. If the repo already has a `dependabot.yml`, merge
    the entry into it.
 2. In `docs/conf.py`, edit only the `PER-PACKAGE` block (`PACKAGE`, `DIST`, `project`,
    `GITHUB_REPO`, `SRC_DIR`, `autodoc_mock_imports`, `LEGACY_GITHUB_STUBS`).
@@ -39,6 +39,27 @@ Two kinds of MyST comment (`% ...`), invisible on the rendered site:
 
 `html_copy_source = False` in `conf.py` keeps them out of the published `_sources/`. They are
 still visible in the public GitHub repository.
+
+## Screenshots
+
+Copy `scripts/make_doc_screenshots.py`, `scripts/doc_shots/` (all of it),
+`tests/test_doc_screenshots.py` and `planning/docs-screenshots/SHOTLIST.md`.
+
+- **Only `scripts/doc_shots/_package.py` differs per package**: data folder, callout colour,
+  `isolate_settings()` (point every settings/state location of the package at a scratch folder)
+  and `make_app()` (offscreen app, light theme). Package-specific helpers (e.g. waiting for a fit
+  job) go there too. Everything else stays identical to the template.
+- A shot ID is `<page>-<nn>-<what>`; the image lives next to the page:
+  `<page dir>/img/<page>/<id>.png`. Page file names must be unique across `docs/`.
+- One module per page, `scripts/doc_shots/<page>.py`, registering shots with `@shot("<id>")`
+  (pattern in `_example.py`). Shots that need judgment stay as `% SCREENSHOT` comments.
+- Inputs are always scratch copies (`ctx.dataset(...)`); fixed window sizes; light theme;
+  < 300 KB per PNG. Numbered callouts come from widget geometry (`draw_callouts`).
+- `tests/test_doc_screenshots.py` (no Qt) keeps pages, shot list, images and `@shot` functions
+  in step. If tests live inside the package (pyIrena: `pyirena/tests/`), it still finds the repo
+  root by `pyproject.toml`.
+- pyIrena's copy predates the template (images only under `tools/`); it can switch over when
+  convenient.
 
 ## Sections
 

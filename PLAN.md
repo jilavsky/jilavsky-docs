@@ -243,5 +243,10 @@ heading Igor links to; never deactivate old versions.
 
 ## 9. Screenshots
 
-As in the draft §7: shot lists first, automate with `QWidget.grab()`, PNG, light theme, fixed
-window size, `<page>-<nn>-<what>.png`, < 300 KB, alt text required.
+Machinery (from pyIrena phase 5, generalized 2026-11-16) is in `templates/package-docs/`:
+`scripts/make_doc_screenshots.py`, `scripts/doc_shots/` (only `_package.py` per package),
+`tests/test_doc_screenshots.py`, `planning/docs-screenshots/SHOTLIST.md`. Rules: ID
+`<page>-<nn>-<what>`; image next to its page at `<page dir>/img/<page>/<id>.png`; scratch copies
+of tracked inputs; settings isolated; fixed sizes; light theme; PNG < 300 KB; alt text and caption
+required; numbered callouts drawn from widget geometry; shots needing judgment stay as
+`% SCREENSHOT` comments listed in the shot list.
