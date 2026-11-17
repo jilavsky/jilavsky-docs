@@ -32,6 +32,9 @@ https://saxs-igorcodedocs.readthedocs.io/en/stable/                  ← unchang
   citations, and the package template.
 - Every site shows the same top navbar (the `FAMILY` block in each `conf.py`), so the family reads
   as one site even though each package has its own versions.
+- Links *between* family sites (navbar, home-page cards, PyPI) use the version-less address
+  (`.../projects/pyirena/`), which RTD redirects to the project's default version. Only the Help
+  buttons name a version (`stable`/`latest`).
 
 ## 3. One layout for every package (harmonization)
 
@@ -47,11 +50,11 @@ simple: **every package's `docs/` looks like `templates/package-docs/docs/`**.
     _static/family.css               identical except the accent colour
     index.md                         what it is, who it is for, one screenshot
     getting-started/                 installation.md, quickstart.md
-    tools/                           ONE PAGE PER WINDOW = Help-button targets (pyIrena, Anisa)
+    tools/                           ONE PAGE PER WINDOW = Help-button targets (optional)
     guides/                          task-oriented how-tos
-    methods/                         theory and algorithms
+    methods/                         theory and algorithms (optional)
     reference/                       api.md (autodoc), file formats, CLI, MCP tools
-    developer/                       testing, releasing, extending
+    developer/                       testing, releasing, extending (optional)
     changelog.md                     includes ../CHANGELOG.md
   <package>/_docs.py                 HELP_TARGETS + docs_url(); no Qt imports
   tests/test_help_targets.py         every Help target exists as a page
@@ -69,9 +72,18 @@ Conventions, all packages:
   instead, which is fine because readers use RTD.)
 - **Anchors the code links to** are explicit MyST labels (`(unified-fit-levels)=`), never
   auto-generated heading anchors.
+- **Optional sections are left out** (folder and toctree entry) until they have a page; no empty
+  placeholder pages (decided 2026-11-13 after AIDA and Bernardyn).
+- **Text that lives elsewhere is included, not copied** (`{include}`, with `start-after`/`end-before`
+  markers for part of `README.md`).
 - **Sections are listed by hand** in each `<section>/index.md` (no globbing), so the order is
   chosen and an empty section still builds without warnings.
 - **Page names under `tools/` never change after release.** If one must, add a redirect.
+- **Section labels on tool pages:** `(<page>-<section>)=` with the suffixes `window`, `workflow`,
+  `controls`, `results`, `scripting`, `method`, `references` (decided 2026-11-16, from pyIrena
+  phase 5). `HELP_ANCHORS` uses them.
+- **Working notes are MyST comments:** `% SCREENSHOT <id>: …` and `% CHECK(Jan): …`. Hidden on
+  the site; `html_copy_source = False` keeps them out of `_sources/` too.
 
 Not documentation, but noticed while surveying (leave alone unless you want them harmonized):
 AIDA uses a `src/` layout, `hatchling` and Python `>=3.11`, while the house standard is a flat
@@ -147,8 +159,11 @@ pyIrena 1.2.1 and AIDA 1.1.0 open GitHub URLs on `main`. When files move, those 
 year, leave a one-line stub at each old pyIrena path, e.g. `docs/unified_fit_gui.md`:
 
 ```markdown
-Moved to <https://jilavsky-docs.readthedocs.io/projects/pyirena/en/stable/tools/unified-fit.html>
+Moved to <https://jilavsky-docs.readthedocs.io/projects/pyirena/en/latest/tools/unified-fit.html>
 ```
+
+Stubs point at `latest`, not `stable` (decided 2026-11-13): `stable` exists only from the next
+release, and the tool pages change little between releases.
 
 List the stubs in `LEGACY_GITHUB_STUBS` in `conf.py` so Sphinx skips them. AIDA's link is to the
 `docs/` folder itself, which still exists, so it needs no stub.
@@ -189,10 +204,19 @@ Changed from the draft:
    `jilavsky-aida`** for consistency. The slug never appears in links: readers see the alias.
 4. In `jilavsky-docs` → Settings → Subprojects, add each with alias **`pyirena`, `bernardyn`,
    `aida`**.
-5. Per project: default version `stable`; automation rule "activate version" for tags matching
-   `^v\d+\.\d+\.\d+$` (all three packages already tag as `vX.Y.Z`); turn on pull-request builds.
-6. `stable` exists only once at least one release tag is active. Activate the newest tag right after
-   import, or the Help buttons (which open `stable`) get a 404.
+5. Per project: default version **`latest` for now** (RTD offers `stable` only once a release tag
+   is active; switch each package to `stable` after its first release with docs; the home page
+   stays on `latest` for good, it has no releases); automation rule "activate version" for tags matching
+   `^v\d+\.\d+\.\d+$` (all three packages already tag as `vX.Y.Z`); turn on pull-request builds
+   (a per-project setting: the parent and each subproject separately).
+6. `stable` exists only once a release tag is active. **Do not activate tags released before the
+   package had Sphinx docs** (pyIrena ≤ v1.2.1, Bernardyn ≤ v1.1.0, AIDA ≤ v1.1.0): they have no
+   `docs/conf.py` and their builds fail. Until the next release, only `latest` (built from `main`)
+   exists. That is fine, because released copies still open GitHub (via the stubs, which point at
+   `latest`). Dev installs of `main` report the release number and so open `stable`, which 404s
+   until the next release; accepted on 2026-11-13 (only Jan is affected).
+   Import each package on RTD after its `docs-rtd` branch is merged (or activate the branch on RTD
+   to preview it before merging).
 7. Igor manuals: no change. Optionally later, on a throwaway project, test whether attaching a
    project as a subproject keeps old deep links (`/en/1.7.0/Irena/UnifiedFit.html#…`) working.
    Only if it does, attach `saxs-igorcodedocs`.
@@ -219,5 +243,10 @@ heading Igor links to; never deactivate old versions.
 
 ## 9. Screenshots
 
-As in the draft §7: shot lists first, automate with `QWidget.grab()`, PNG, light theme, fixed
-window size, `<page>-<nn>-<what>.png`, < 300 KB, alt text required.
+Machinery (from pyIrena phase 5, generalized 2026-11-16) is in `templates/package-docs/`:
+`scripts/make_doc_screenshots.py`, `scripts/doc_shots/` (only `_package.py` per package),
+`tests/test_doc_screenshots.py`, `planning/docs-screenshots/SHOTLIST.md`. Rules: ID
+`<page>-<nn>-<what>`; image next to its page at `<page dir>/img/<page>/<id>.png`; scratch copies
+of tracked inputs; settings isolated; fixed sizes; light theme; PNG < 300 KB; alt text and caption
+required; numbered callouts drawn from widget geometry; shots needing judgment stay as
+`% SCREENSHOT` comments listed in the shot list.

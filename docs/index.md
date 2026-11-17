@@ -11,21 +11,21 @@ the material they share: installation, file formats, and workflows that use more
 :gutter: 3
 
 :::{grid-item-card} pyIrena
-:link: https://jilavsky-docs.readthedocs.io/projects/pyirena/en/stable/
+:link: https://jilavsky-docs.readthedocs.io/projects/pyirena/
 
 Analysis of SAS data in Python: Unified Fit, size distributions, modeling, simple fits, WAXS
 peak fitting, data merging. A port of Igor Pro Irena, with GUI, scripting and MCP interfaces.
 :::
 
 :::{grid-item-card} Bernardyn
-:link: https://jilavsky-docs.readthedocs.io/projects/bernardyn/en/stable/
+:link: https://jilavsky-docs.readthedocs.io/projects/bernardyn/
 
 Publication-quality plots of scattering and diffraction curves, including saved pyIrena
 results. Graphs are saved as portable HDF5 packages.
 :::
 
 :::{grid-item-card} AIDA
-:link: https://jilavsky-docs.readthedocs.io/projects/aida/en/stable/
+:link: https://jilavsky-docs.readthedocs.io/projects/aida/
 
 AI Data Assistant: a desktop workbench for using local or cloud language models with
 pyIrena, Bernardyn and other scientific tools, in your own data folders.

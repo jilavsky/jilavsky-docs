@@ -26,20 +26,23 @@ myst_heading_anchors = 3
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # ---- Family navbar: identical block in every family conf.py ---------------
+# Version-less addresses: RTD redirects them to each project's default version.
+# The home page has no releases, so it never has a "stable".
 _RTD = "https://jilavsky-docs.readthedocs.io"
+_IGOR = "https://saxs-igorcodedocs.readthedocs.io/en/stable/"
 FAMILY = [
-    {"name": "Home", "url": f"{_RTD}/en/stable/"},
-    {"name": "pyIrena", "url": f"{_RTD}/projects/pyirena/en/stable/"},
-    {"name": "Bernardyn", "url": f"{_RTD}/projects/bernardyn/en/stable/"},
-    {"name": "AIDA", "url": f"{_RTD}/projects/aida/en/stable/"},
-    {"name": "Igor: Irena/Nika/Indra", "url": "https://saxs-igorcodedocs.readthedocs.io/en/stable/"},
+    {"name": "Home", "url": f"{_RTD}/"},
+    {"name": "pyIrena", "url": f"{_RTD}/projects/pyirena/"},
+    {"name": "Bernardyn", "url": f"{_RTD}/projects/bernardyn/"},
+    {"name": "AIDA", "url": f"{_RTD}/projects/aida/"},
+    {"name": "Igor: Irena/Nika/Indra", "url": _IGOR},
 ]
 # ---------------------------------------------------------------------------
 
 # Cross-project links. Add a family member here only once its RTD project is
 # live: an unreachable inventory is a warning, and the build runs with -W.
 intersphinx_mapping = {
-    "igor": ("https://saxs-igorcodedocs.readthedocs.io/en/stable/", None),
+    "igor": (_IGOR, None),
     # "pyirena": (f"{_RTD}/projects/pyirena/en/stable/", None),
     # "bernardyn": (f"{_RTD}/projects/bernardyn/en/stable/", None),
     # "aida": (f"{_RTD}/projects/aida/en/stable/", None),
@@ -50,6 +53,9 @@ html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
 html_css_files = ["family.css"]
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+# Do not publish page sources: "% CHECK(Jan)" and "% SCREENSHOT" comments are
+# working notes, hidden on rendered pages but visible in _sources/ ("Show source").
+html_copy_source = False
 html_theme_options = {
     "external_links": [link for link in FAMILY if link["name"] != "Home"],
     "header_links_before_dropdown": 6,
