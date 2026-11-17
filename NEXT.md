@@ -1,16 +1,16 @@
 # Where we are and what is next
 
-*Restart point. Updated 2026-11-16, end of day. Read this first, then `PLAN.md` for the design.
+*Restart point. Updated 2026-11-17. Read this first, then `PLAN.md` for the design.
 Delete items as they are done.*
 
 ## State
 
 | Repo | Branch | State |
 |---|---|---|
-| jilavsky-docs | main | Template has today's screenshot-machinery fixes (see "Template sync") |
-| pyirena | main | Phase 5 merged (#42). Has its own older copy of the screenshot machinery |
-| Bernardyn | main | Phase 5 merged (#3) |
-| Aida | main | Windows fix `ffac4ef` on main. **Phase 5 PR #5 still an open draft**: main is merged into it, CI was rerunning with the fix |
+| jilavsky-docs | main | Template `_common.py`: `scene_item_rect` fix of 2026-11-17 (see below) |
+| pyirena | main | Phase 5 merged (#42). Draft PR #43 switches it to the template machinery |
+| Bernardyn | main | Phase 5 (#3) and template sync (#4) merged |
+| Aida | main | Phase 5 merged (#5). Draft PRs #6 and #7 open; Jan handles them |
 
 Phase 5 reports, with every `CHECK(Jan)` item, the code issues and the manual shots:
 `planning/status-pyirena-phase5.md`, `planning/status-aida-phase5.md`,
@@ -18,32 +18,28 @@ Phase 5 reports, with every `CHECK(Jan)` item, the code issues and the manual sh
 
 ## Next, in order
 
-1. **AIDA PR #5:** if CI is green, mark it ready and merge.
-2. **AIDA `guides/axis-camera.md` privacy:** already live on `latest` and `stable`. It shows a real
-   home path, `/home/beams/USAXS`, the IP `10.54.122.46` and a stray working note. Decide what
-   to replace them with, then fix in a small AIDA docs PR.
-3. **AIDA [behaviour]:** the pages say "~70 tools" / "~10,200 tokens" for pyIrena's MCP server;
-   the measured count against pyIrena 1.2.1 is 28. Jan decides the numbers.
-4. **Template sync** (below) into Bernardyn and AIDA, then switch pyIrena to the template copy.
-5. Remove AIDA's leftover fork worktrees:
-   `git -C ~/GitHub/Aida worktree list`, then `git worktree remove` each `.claude/worktrees/agent-*`
-   and delete the `worktree-agent-*` branches.
+1. **AIDA PRs #6 (tool count 28, axis-camera decision) and #7 (template sync):** Jan.
+2. **pyIrena PR #43** (`docs-template-sync`): check CI, review, merge. The shared files are now
+   identical to the template. pyIrena's own parts are in `scripts/doc_shots/_package.py`
+   (`VALIDATION`, `TEST_DATA`, `wait_jobs(ctx, panel)`). 40/42 shots byte-identical.
+   `data-explorer-01` is just out of date (identical to an old-scripts run): regenerate it on
+   purpose if wanted. `saxs-morph-01` varies run to run (3-D view).
+3. **Carry the `scene_item_rect` fix** to Bernardyn and AIDA: copy
+   `templates/package-docs/scripts/doc_shots/_common.py` over theirs (AIDA after #7 is merged).
+   The template version raised `AttributeError: QSize.toSize`. Neither package calls it, so
+   this only keeps `_common.py` identical.
+4. **pyIrena leftover fork worktrees:** four `.claude/worktrees/agent-*` exist. Check, as was
+   done for AIDA, that their commits are on main before removing them and deleting their
+   branches.
 
-## Template sync (template change of 2026-11-16)
+## Template notes (change of 2026-11-16)
 
-Copy these unchanged from `templates/package-docs/` into each package (AIDA after #5 is merged):
-`scripts/make_doc_screenshots.py`, `scripts/doc_shots/_common.py`,
-`scripts/doc_shots/_example.py`. `_package.py` is not copied; its new docstrings are guidance.
-
-What changed:
-- `index-<nn>-…` shots belong to `docs/index.md`.
-- `--keep`; the scratch folder is otherwise deleted after the run.
-- One failing `close()` in clean-up no longer ends the run.
-- New helpers `refuse_message_boxes()` and `flush_deletes(app)` in `_common.py`.
-  - Bernardyn can replace its own `refuse()` and `flush_deletes(ctx)` with them; optional.
-  - Do **not** call `flush_deletes` from the clean-up loop: doing so crashed PySide6.
-
-Checked: Bernardyn's 13 shots with the new files gave byte-identical images and the test passes.
+- `index-<nn>-…` shots belong to `docs/index.md`; `--keep` keeps the scratch folder.
+- New helpers `refuse_message_boxes()` and `flush_deletes(app)` in `_common.py`. Bernardyn can
+  replace its own `refuse()` and `flush_deletes(ctx)` with them; optional.
+- Do **not** call `flush_deletes` from the clean-up loop: doing so crashed PySide6.
+- Some AIDA shots are not reproducible run to run (timings, sidebar/import dialogs). Worth making
+  them deterministic before relying on "regenerate and diff" there.
 
 ## For the Christmas walk-through (Jan)
 

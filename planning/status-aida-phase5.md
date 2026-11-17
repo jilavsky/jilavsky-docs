@@ -161,6 +161,7 @@ Notes:
 - **guides/pyirena:** "~70 tools", "68 tool(s)" and "~10,200 tokens" (also used on bernardyn and
   in concepts, and "100+ tools" on mcp-servers). `aida mcp test pyirena` against pyIrena 1.2.1
   reports **28** tools. The context-cost argument for MCP groups rests on these numbers.
+  *Resolved 2026-11-17 (AIDA PR #6): 28 tools, ~5,500 tokens.*
 
 ### Privacy, decide before the PR goes public
 
@@ -168,6 +169,8 @@ Notes:
   - The page is already published, and it shows a real home path (`/Users/ilavsky/...`),
     `/home/beams/USAXS` and the IP `10.54.122.46`.
   - A stray working note is published as written: "*NOTE* for axisserver withotu credentials…".
+  - *Resolved 2026-11-17 (Jan): the IPs and paths stay. The cameras are behind the lab firewall,
+    password-protected, and their addresses are already public. The stray note is still open.*
 
 ### By page
 
