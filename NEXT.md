@@ -20,11 +20,7 @@ Phase 5 reports, with every `CHECK(Jan)` item, the code issues and the manual sh
 
 ## Next, in order
 
-1. **Actions v7 PRs** (pyIrena #44, AIDA #9, Bernardyn #6): `actions/checkout` v4 → v7 and
-   `actions/setup-python` v5 → v7 in every workflow. Merge when CI is green.
-   Note: jilavsky-docs's own `docs.yml` had lost the setup-python bump. The merge commit
-   `1332b04` (main into Dependabot #1) took the v5 line. It is restored in jilavsky-docs main.
-2. Then the Christmas walk-through items, or **Later** (below).
+1. Then the Christmas walk-through items, or **Later** (below).
 
 ## Template notes (change of 2026-11-16)
 
