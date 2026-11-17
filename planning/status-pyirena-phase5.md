@@ -411,6 +411,14 @@ Most important first:
       1200×700, Contrast at 1120×740. The shots use larger sizes.
     - The Data Selector graph legend font is very large; this may be offscreen-only.
 12. Size Distribution and Simple Fits have no `__main__`, so neither can be launched standalone.
+13. **From an agent's scratch notes** (recovered 2026-11-17, before its worktree was removed):
+    - WAXS Peak Fit: after removing peak rows, the remaining rows keep titles like "Peak 2",
+      "Peak 5", while the graph labels the peaks 1–3. Row titles are not renumbered.
+    - WAXS Peak Fit: Find Peaks with default settings returns 6 peaks on
+      `waxs_three_gauss.h5`, the 3 real ones plus 3 tiny false ones at Q ≈ 2.1, 2.4 and 3.0.
+      `find_waxs_peaks` gives similar extras. The shots remove them, as the workflow says.
+    - Fractals: optimizer trial labels make the left pane scroll horizontally at the default
+      splitter width.
 
 ## Template changes suggested (not made)
 

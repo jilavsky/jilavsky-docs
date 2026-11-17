@@ -7,10 +7,13 @@ Delete items as they are done.*
 
 | Repo | Branch | State |
 |---|---|---|
-| jilavsky-docs | main | Template `_common.py`: `scene_item_rect` fix of 2026-11-17 (see below) |
-| pyirena | main | Phase 5 merged (#42). Draft PR #43 switches it to the template machinery |
-| Bernardyn | main | Phase 5 (#3) and template sync (#4) merged |
-| Aida | main | Phase 5 merged (#5). Draft PRs #6 and #7 open; Jan handles them |
+| jilavsky-docs | main | Template `_common.py` has the `scene_item_rect` fix (628676d) |
+| pyirena | main | Phase 5 (#42) and template machinery (#43) merged |
+| Bernardyn | main | #3, #4 merged. Draft PR #5: `scene_item_rect` fix |
+| Aida | main | #5, #6, #7 merged. Draft PR #8: `scene_item_rect` fix |
+
+All three packages now run the same screenshot machinery. After #5 and #8, `_common.py` is
+identical everywhere.
 
 Phase 5 reports, with every `CHECK(Jan)` item, the code issues and the manual shots:
 `planning/status-pyirena-phase5.md`, `planning/status-aida-phase5.md`,
@@ -18,19 +21,19 @@ Phase 5 reports, with every `CHECK(Jan)` item, the code issues and the manual sh
 
 ## Next, in order
 
-1. **AIDA PRs #6 (tool count 28, axis-camera decision) and #7 (template sync):** Jan.
-2. **pyIrena PR #43** (`docs-template-sync`): check CI, review, merge. The shared files are now
-   identical to the template. pyIrena's own parts are in `scripts/doc_shots/_package.py`
-   (`VALIDATION`, `TEST_DATA`, `wait_jobs(ctx, panel)`). 40/42 shots byte-identical.
-   `data-explorer-01` is just out of date (identical to an old-scripts run): regenerate it on
-   purpose if wanted. `saxs-morph-01` varies run to run (3-D view).
-3. **Carry the `scene_item_rect` fix** to Bernardyn and AIDA: copy
-   `templates/package-docs/scripts/doc_shots/_common.py` over theirs (AIDA after #7 is merged).
-   The template version raised `AttributeError: QSize.toSize`. Neither package calls it, so
-   this only keeps `_common.py` identical.
-4. **pyIrena leftover fork worktrees:** four `.claude/worktrees/agent-*` exist. Check, as was
-   done for AIDA, that their commits are on main before removing them and deleting their
-   branches.
+1. **Bernardyn PR #5 and AIDA PR #8:** one-file copy of the template `_common.py`. Neither
+   package calls `scene_item_rect`, so no image changes. Review and merge.
+2. **pyIrena fork worktrees** (Jan; Claude was not permitted to delete them). Checked
+   2026-11-17: all four have every commit on main (same patches). One holds an untracked
+   `.scratch/` folder; its notes are now in `status-pyirena-phase5.md` item 13. So `--force` is
+   needed for that one:
+   `cd ~/GitHub/pyirena && for w in .claude/worktrees/agent-*; do git worktree remove --force "$w"; done && git branch -D $(git branch --list 'worktree-agent-*' --format='%(refname:short)')`
+   Also listed: a locked worktree `/tmp/pyirena-head` (lock reason "initializing", at an old
+   commit `67e0747`). It is probably stale: `git worktree unlock /tmp/pyirena-head && git
+   worktree remove /tmp/pyirena-head` if nothing is using it.
+3. Optional: regenerate pyIrena's out-of-date `data-explorer-01` image on purpose
+   (`python scripts/make_doc_screenshots.py --only data-explorer-01-window`).
+4. Then move on to the Christmas walk-through items or **Later** (below).
 
 ## Template notes (change of 2026-11-16)
 
