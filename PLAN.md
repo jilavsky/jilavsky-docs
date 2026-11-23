@@ -226,12 +226,12 @@ Changed from the draft:
 | Phase | When | Output |
 |---|---|---|
 | 1. This repo | done (2026-11-13) | Home page, template, CI. Builds clean with `-W` |
-| 2. RTD setup | late Nov, Jan | §6 steps 1–6 |
-| 3. pyIrena | Dec | `docs-rtd` branch per §4.1; `_docs.py`; Help buttons switched; stubs |
-| 4. AIDA, Bernardyn | Dec | same, per §4.2 and §4.3 |
-| 5. Drafts and shot lists | Dec | Tool pages per `tools/_template.md`; `SHOTLIST.md`; automated screenshots (`QWidget.grab()`) where possible |
-| 6. Walk-through | Christmas break, Jan | Screenshots and corrections |
-| 7. Release | January | Next release of each package switches its Help buttons to RTD |
+| 2. RTD setup | done (2026-11-23) | §6 steps 1–6 (Bernardyn's default is still `latest`; see NEXT.md) |
+| 3. pyIrena | done (2026-11-23) | `docs-rtd` branch per §4.1; `_docs.py`; Help buttons switched; stubs |
+| 4. AIDA, Bernardyn | done (2026-11-23) | same, per §4.2 and §4.3 |
+| 5. Drafts and shot lists | done (2026-11-17) | Tool pages per `tools/_template.md`; `SHOTLIST.md`; automated screenshots (`QWidget.grab()`) where possible |
+| 6. Walk-through | open: Christmas break, Jan | Screenshots and corrections (NEXT.md) |
+| 7. Release | done (2026-11-23) | pyIrena 1.3.1, Bernardyn 1.2.0, AIDA 1.1.2 switch their Help buttons to RTD |
 | Later | 2027 | Anisa, pyNika; Igor modernization (separate branch in SAXS_IgorCodeDocs) |
 
 ## 8. Igor manuals (unchanged from the draft, deferred)
